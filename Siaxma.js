@@ -53,12 +53,12 @@ var darkCss   = ASSET_BASE + '/Siaxma_dark.css?dev=' + Math.random();
 }
 
 function update() {
-    // Reload weatherwidget.io iframe every 10 minutes
     var iframe = document.getElementById('weatherwidget-io-0');
     if (iframe) {
         iframe.src = iframe.src;
     }
 }
+
 
 
 updateDarkMode();
@@ -838,6 +838,7 @@ var x = setInterval(function() {
             </div>
         </div>
 
+        <!-- Mini weather widget in top-right -->
         <div id="weather-mini" style="
             position: absolute;
             top: 6px;
@@ -859,8 +860,31 @@ var x = setInterval(function() {
     `;
     element.classList.add("fade-in");
 
-    // weatherwidget loader was here
+    // Load weatherwidget.io script if not already present
+    (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (!d.getElementById(id)) {
+            js = d.createElement(s);
+            js.id = id;
+            js.src = 'https://weatherwidget.io/js/widget.min.js';
+            fjs.parentNode.insertBefore(js, fjs);
+        }
+    })(document, 'script', 'weatherwidget-io-js');
+
+    // Force init after the script & anchor exist
+    setTimeout(function () {
+        if (window.__weatherwidget_init) {
+            try {
+                window.__weatherwidget_init();
+            } catch (e) {
+                console.warn("weatherwidget init error:", e);
+            }
+        } else {
+            console.warn("weatherwidget init function not found");
+        }
+    }, 500);
 }
+
 
 
 
