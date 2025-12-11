@@ -3,8 +3,8 @@ javascript:(function(){var script = document.createElement('script'); script.typ
 ---------------------*/
 
 // ===== Siaxma Dashboard Config (managed by dashboard.html) =====
-window.SIAXMA_ENABLED = false;
-window.SIAXMA_MESSAGE = "Das Addon wird gewartet. Versuche es später noch einmal.";
+window.SIAXMA_ENABLED = true;
+window.SIAXMA_MESSAGE = "";
 
 // Globally kill the addon if disabled
 if (!window.SIAXMA_ENABLED) {
