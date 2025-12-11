@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Siaxma Addon Dashboard</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #111;
+      color: #eee;
+      margin: 0;
+      padding: 16px;
+    }
+    h1 {
+      margin-top: 0;
+    }
+    .card {
+      background: #1e1e1e;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+    }
+    label {
+      display: block;
+      margin: 6px 0 2px;
+      font-size: 13px;
+      color: #aaa;
+    }
+    input[type="text"],
+    input[type="password"],
+    textarea {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 8px;
+      border-radius: 4px;
+      border: 1px solid #444;
+      background: #151515;
+      color: #eee;
+      font-family: monospace;
+      font-size: 13px;
+    }
+    textarea {
+      min-height: 260px;
+      resize: vertical;
+    }
+    button {
+      margin-top: 8px;
+      padding: 8px 14px;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      background: #2563eb;
+      color: #fff;
+      font-weight: 500;
+      font-size: 13px;
+    }
+    button.secondary {
+      background: #444;
+    }
+    button:disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
+    .row {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .row > .col {
+      flex: 1 1 260px;
+    }
+    .status {
+      font-size: 12px;
+      margin-top: 4px;
+      color: #9ca3af;
+    }
+    .status.ok {
+      color: #4ade80;
+    }
+    .status.err {
+      color: #f87171;
+    }
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 4px;
+    }
+    .toggle-row input[type="checkbox"] {
+      transform: scale(1.1);
+    }
+    .pill {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      background: #222;
+      color: #9ca3af;
+      margin-left: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Siaxma Addon Dashboard</h1>
+  <p style="font-size:13px;color:#9ca3af;">
+    Repo: <strong>onlylegendscanmeetjeff/siaxma-addon</strong><br>
+    Datei: <code>Siaxma.js</code>
+  </p>
+
+  <!-- GitHub Auth -->
+  <div class="card">
+    <h2>GitHub Zugang</h2>
+    <p style="font-size:13px;color:#9ca3af;">
+      Erstelle einen GitHub Personal Access Token (Classic) mit <code>repo</code>-Rechten und füge ihn hier ein.
+      Der Token wird nur lokal im Browser (localStorage) gespeichert.
+    </p>
+    <label for="token">Personal Access Token</label>
+    <input type="password" id="token" placeholder="ghp_..." />
+    <button id="saveTokenBtn">Token speichern</button>
+    <span id="tokenStatus" class="status"></span>
+  </div>
+
+  <!-- Toggle / Maintenance -->
+  <div class="card">
+    <h2>Addon Ein/Aus</h2>
+    <div class="toggle-row">
+      <input type="checkbox" id="enabledToggle" />
+      <label for="enabledToggle" style="margin:0;">Addon aktiviert</label>
+      <span id="enabledStatus" class="pill">Unbekannt</span>
+    </div>
+
+    <label for="message">Nachricht bei Deaktivierung (optional)</label>
+    <input type="text" id="message" placeholder="z.B. Wartung – bitte später nochmals versuchen." />
+
+    <button id="applyToggleBtn">Änderung anwenden</button>
+    <span id="toggleStatus" class="status"></span>
+  </div>
+
+  <!-- Raw JS Editor -->
+  <div class="card">
+    <h2>Siaxma.js bearbeiten</h2>
+    <div class="row">
+      <div class="col">
+        <button id="loadBtn">Siaxma.js laden</button>
+        <button id="saveBtn" class="secondary">Speichern</button>
+        <span id="fileStatus" class="status"></span>
+      </div>
+    </div>
+
+    <label for="editor">Datei-Inhalt (Siaxma.js)</label>
+    <textarea id="editor" spellcheck="false"></textarea>
+  </div>
+
+  <script>
+    // ---- Config for your repo ----
+    const OWNER  = "onlylegendscanmeetjeff";
+    const REPO   = "siaxma-addon";
+    const BRANCH = "main";
+    const PATH   = "Siaxma.js";
+
+    // State
+    let currentSha = null;
+    const tokenInput      = document.getElementById("token");
+    const tokenStatus     = document.getElementById("tokenStatus");
+    const enabledToggle   = document.getElementById("enabledToggle");
+    const enabledStatus   = document.getElementById("enabledStatus");
+    const messageInput    = document.getElementById("message");
+    const toggleStatus    = document.getElementById("toggleStatus");
+    const editor          = document.getElementById("editor");
+    const fileStatus      = document.getElementById("fileStatus");
+    const loadBtn         = document.getElementById("loadBtn");
+    const saveBtn         = document.getElementById("saveBtn");
+    const applyToggleBtn  = document.getElementById("applyToggleBtn");
+
+    // ---- Helpers ----
+    function getToken() {
+      return localStorage.getItem("siaxma_token") || "";
+    }
+
+    function setToken(token) {
+      if (token) {
+        localStorage.setItem("siaxma_token", token);
+        tokenStatus.textContent = "Token gespeichert.";
+        tokenStatus.className = "status ok";
+      } else {
+        localStorage.removeItem("siaxma_token");
+        tokenStatus.textContent = "Token entfernt.";
+        tokenStatus.className = "status";
+      }
+    }
+
+    function b64encode(str) {
+      return btoa(unescape(encodeURIComponent(str)));
+    }
+
+    function b64decode(str) {
+      return decodeURIComponent(escape(atob(str)));
+    }
+
+    async function ghFetch(path, options = {}) {
+      const token = getToken();
+      if (!token) {
+        throw new Error("Kein Token gesetzt.");
+      }
+      const headers = options.headers || {};
+      headers["Authorization"] = "Bearer " + token;
+      headers["Accept"] = "application/vnd.github+json";
+      return fetch(path, { ...options, headers });
+    }
+
+    // ---- Load Siaxma.js ----
+    async function loadFile() {
+      fileStatus.textContent = "Lade...";
+      fileStatus.className = "status";
+      try {
+        const url = `https://api.github.com/repos/${OWNER}/${REPO}/contents/${PATH}?ref=${BRANCH}`;
+        const res = await ghFetch(url);
+        if (!res.ok) {
+          throw new Error("GitHub Fehler: " + res.status);
+        }
+        const json = await res.json();
+        currentSha = json.sha;
+        editor.value = b64decode(json.content.replace(/\n/g, ""));
+        fileStatus.textContent = "Datei geladen.";
+        fileStatus.className = "status ok";
+
+        // After loading, also parse config for toggle UI
+        parseConfigFromCode(editor.value);
+      } catch (e) {
+        console.error(e);
+        fileStatus.textContent = "Fehler beim Laden: " + e.message;
+        fileStatus.className = "status err";
+      }
+    }
+
+    // ---- Save Siaxma.js ----
+    async function saveFile(updatedCode, message = "Update Siaxma.js via dashboard") {
+      fileStatus.textContent = "Speichere...";
+      fileStatus.className = "status";
+      try {
+        if (!currentSha) {
+          throw new Error("Keine SHA vorhanden – zuerst laden.");
+        }
+        const url = `https://api.github.com/repos/${OWNER}/${REPO}/contents/${PATH}`;
+        const body = {
+          message,
+          content: b64encode(updatedCode),
+          sha: currentSha,
+          branch: BRANCH
+        };
+        const res = await ghFetch(url, {
+          method: "PUT",
+          body: JSON.stringify(body)
+        });
+        if (!res.ok) {
+          throw new Error("GitHub Fehler: " + res.status);
+        }
+        const json = await res.json();
+        currentSha = json.content.sha;
+        editor.value = updatedCode;
+        fileStatus.textContent = "Gespeichert.";
+        fileStatus.className = "status ok";
+        return updatedCode;
+      } catch (e) {
+        console.error(e);
+        fileStatus.textContent = "Fehler beim Speichern: " + e.message;
+        fileStatus.className = "status err";
+        throw e;
+      }
+    }
+
+    // ---- Parse / update config block in code ----
+    function parseConfigFromCode(code) {
+      // window.SIAXMA_ENABLED = true/false;
+      const enabledMatch = code.match(/window\.SIAXMA_ENABLED\s*=\s*(true|false)\s*;/);
+      const messageMatch = code.match(/window\.SIAXMA_MESSAGE\s*=\s*("([^"\\]|\\.)*"|'([^'\\]|\\.)*')\s*;/);
+
+      if (enabledMatch) {
+        const isEnabled = enabledMatch[1] === "true";
+        enabledToggle.checked = isEnabled;
+        enabledStatus.textContent = isEnabled ? "Aktiviert" : "Deaktiviert";
+        enabledStatus.style.background = isEnabled ? "#14532d" : "#4b1d1d";
+        enabledStatus.style.color = isEnabled ? "#bbf7d0" : "#fecaca";
+      } else {
+        enabledToggle.checked = true;
+        enabledStatus.textContent = "Config nicht gefunden";
+        enabledStatus.style.background = "#4b5563";
+        enabledStatus.style.color = "#e5e7eb";
+      }
+
+      if (messageMatch) {
+        // Strip quotes safely
+        let raw = messageMatch[1];
+        try {
+          // Use JSON parsing to unescape
+          raw = JSON.parse(raw.replace(/'/g, '"'));
+        } catch {
+          raw = raw.replace(/^['"]|['"]$/g, "");
+        }
+        messageInput.value = raw;
+      } else {
+        messageInput.value = "";
+      }
+    }
+
+    function applyToggleToCode(code, enabled, message) {
+      let newCode = code;
+
+      // Ensure config block exists
+      if (!/window\.SIAXMA_ENABLED/.test(newCode)) {
+        const configBlock = [
+          "// ===== Siaxma Dashboard Config (managed by dashboard.html) =====",
+          "window.SIAXMA_ENABLED = true;",
+          "window.SIAXMA_MESSAGE = \"\";",
+          "",
+          "if (!window.SIAXMA_ENABLED) {",
+          "    alert(window.SIAXMA_MESSAGE || \"Siaxma-Addon ist momentan deaktiviert.\");",
+          "    throw new Error(\"Siaxma disabled by dashboard\");",
+          "}",
+          "// ===== End Dashboard Config =====",
+          ""
+        ].join("\n");
+        newCode = configBlock + "\n" + newCode;
+      }
+
+      // Update enabled flag
+      newCode = newCode.replace(
+        /window\.SIAXMA_ENABLED\s*=\s*(true|false)\s*;/,
+        "window.SIAXMA_ENABLED = " + (enabled ? "true" : "false") + ";"
+      );
+
+      // Update message line (or add if missing)
+      const msgLine = 'window.SIAXMA_MESSAGE = ' + JSON.stringify(message || "") + ";";
+      if (/window\.SIAXMA_MESSAGE/.test(newCode)) {
+        newCode = newCode.replace(
+          /window\.SIAXMA_MESSAGE\s*=\s*("([^"\\]|\\.)*"|'([^'\\]|\\.)*')\s*;/,
+          msgLine
+        );
+      } else {
+        newCode = newCode.replace(
+          /window\.SIAXMA_ENABLED\s*=\s*(true|false)\s*;/,
+          "window.SIAXMA_ENABLED = " + (enabled ? "true" : "false") + ";\n" + msgLine
+        );
+      }
+
+      return newCode;
+    }
+
+    // ---- Event listeners ----
+    document.getElementById("saveTokenBtn").addEventListener("click", () => {
+      setToken(tokenInput.value.trim());
+    });
+
+    loadBtn.addEventListener("click", () => {
+      loadFile();
+    });
+
+    saveBtn.addEventListener("click", async () => {
+      try {
+        await saveFile(editor.value, "Update Siaxma.js (manual edit) via dashboard");
+      } catch {}
+    });
+
+    applyToggleBtn.addEventListener("click", async () => {
+      toggleStatus.textContent = "Wende Änderung an...";
+      toggleStatus.className = "status";
+      try {
+        if (!editor.value) {
+          await loadFile();
+        }
+        const enabled = enabledToggle.checked;
+        const message = messageInput.value || "";
+        const updated = applyToggleToCode(editor.value, enabled, message);
+        await saveFile(updated, "Toggle SIAXMA_ENABLED via dashboard");
+        parseConfigFromCode(updated);
+        toggleStatus.textContent = "Änderung gespeichert.";
+        toggleStatus.className = "status ok";
+      } catch (e) {
+        toggleStatus.textContent = "Fehler: " + e.message;
+        toggleStatus.className = "status err";
+      }
+    });
+
+    // Init – load token from localStorage
+    (function init() {
+      const t = getToken();
+      if (t) {
+        tokenInput.value = t;
+        tokenStatus.textContent = "Token aus localStorage geladen.";
+        tokenStatus.className = "status ok";
+      }
+    })();
+  </script>
+</body>
+</html>

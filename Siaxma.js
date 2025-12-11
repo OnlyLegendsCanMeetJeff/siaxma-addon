@@ -2,6 +2,18 @@
 javascript:(function(){var script = document.createElement('script'); script.type = 'text/javascript'; script.src = 'https://dev.k26.ch/Siaxma.js?dev=' + Math.floor(Math.random() * 100); document.head.appendChild(script);})();
 ---------------------*/
 
+// ===== Siaxma Dashboard Config (managed by dashboard.html) =====
+window.SIAXMA_ENABLED = true;
+window.SIAXMA_MESSAGE = "";
+
+// Globally kill the addon if disabled
+if (!window.SIAXMA_ENABLED) {
+    alert(window.SIAXMA_MESSAGE || "Siaxma-Addon ist momentan deaktiviert.");
+    throw new Error("Siaxma disabled by dashboard");
+}
+// ===== End Dashboard Config =====
+
+
 console.log("Javascript loaded");
 //Style 
 
