@@ -614,22 +614,19 @@ document.head.appendChild(script);
 document.querySelector("#WTButton_ze_monthPrintBtn").innerHTML = '<i class="fas fa-print"></i> Monatsbericht';
 document.querySelector("#WTButton_ze_recalcDayBtn").innerHTML = '<i class="fas fa-calculator"></i>'
 
-// Simple weather link – no external widget JS
+//WeatherWidget
 widgets = document.getElementById("widgets");
-if (widgets) {
-    widgets.innerHTML = `
-        <div class="widget">
-            <div style="padding:8px 12px;">
-                <strong>Wetter Chur</strong><br>
-                <a href="https://www.srf.ch/meteo/wetter/Chur/46.8507,9.5317"
-                   target="_blank"
-                   rel="noopener noreferrer">
-                    SRF Meteo öffnen
-                </a>
-            </div>
-        </div>
-    `;
-}
+widgets.innerHTML = '<div class="widget"><a class="weatherwidget-io" href="https://forecast7.com/de/46d859d53/chur/" data-label_1="CHUR" data-label_2="Wetter" data-icons="Climacons Animated" data-theme="weather_one" >CHUR Wetter</a></div>';
+! function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (!d.getElementById(id)) {
+        js = d.createElement(s);
+        js.id = id;
+        js.src = 'https://weatherwidget.io/js/widget.min.js';
+        fjs.parentNode.insertBefore(js, fjs);
+    }
+}(document, 'script', 'weatherwidget-io-js');
+
 
 //Bus Widget
 //widgets.innerHTML += '<div class="widget"><ul class="livedata"></ul></div>';
@@ -818,10 +815,13 @@ var x = setInterval(function() {
         }
 
        if (i == 1) {
-    // Set HTML of #paddingtd (no external SVG)
+    // Make sure we can position stuff inside
+    element.style.position = "relative";
+
+    // Set HTML of #paddingtd (clock, progress, weather icon)
     element.innerHTML = `
         <h1 id="clock"></h1>
-        <span style="color: grey; height:100%; font-size:11px; padding-left:10px;">
+        <span style="color: grey; height: 100%; font-size: 11px; padding-left: 10px;">
             Von Nicolas Caluori
         </span>
         <br>
@@ -830,9 +830,28 @@ var x = setInterval(function() {
                 <span id="percent"></span>
             </div>
         </div>
+
+        <!-- Mini weather in the top-right corner -->
+        <div id="weather-mini" style="
+            position: absolute;
+            top: 6px;
+            right: 10px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            opacity: 0.9;
+        ">
+            <span id="weather-mini-icon">--</span>
+            <span id="weather-mini-temp">--°</span>
+        </div>
     `;
     element.classList.add("fade-in");
+
+    // First weather fetch directly after initial render
+    fetchWeatherMini();
 }
+
 
         // If the count down is finished
         if (distance < 0) {
