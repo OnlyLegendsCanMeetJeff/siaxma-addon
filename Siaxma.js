@@ -187,7 +187,7 @@ function aniamteSiaxma() {
 //Add "Important Stuff"
 importantStuff = document.getElementById("important-stuff");
 for (var i = 0; i < links.length; i++) {
-    importantStuff.innerHTML = importantStuff.innerHTML + '  <a class="card" target="_blank" rel="noopener noreferrer" href="' + links[i][1] + '"><h3>' + links[i][0] + '</h3><p class="small">' + links[i][2] + '</p><div class="go-corner" target="_blank" rel="noopener noreferrer" href="' + links[i][1] + '"><div class="go-arrow"> â†’ </div></div></a>'
+    importantStuff.innerHTML = importantStuff.innerHTML + '  <a class="card" target="_blank" rel="noopener noreferrer" href="' + links[i][1] + '"><h3>' + links[i][0] + '</h3><p class="small">' + links[i][2] + '</p><div class="go-corner" target="_blank" rel="noopener noreferrer" href="' + links[i][1] + '"><div class="go-arrow"> → </div></div></a>'
 }
 
 /*[].forEach.call(document.querySelectorAll("#important-stuff .card"), function(el) {
@@ -841,9 +841,6 @@ var x = setInterval(function() {
             <div id="siaxma-header-left">
                 <h1 id="clock"></h1>
 
-                <span style="color: grey; font-size: 11px; padding-left: 10px;">
-                    Von Nicolas Caluori
-                </span>
 
                 <br>
 
@@ -854,21 +851,6 @@ var x = setInterval(function() {
                 </div>
             </div>
 
-            <!-- RIGHT SIDE: Old-style weather iframe -->
-            <div id="siaxma-header-right" style="
-                width: 180px;
-                height: 70px;
-                margin-left: 12px;
-                flex-shrink: 0;
-            ">
-                <iframe
-                    id="weatherwidget-io-0"
-                    src="https://forecast7.com/de/46d859d53/chur/?unit=metric&cell=widget"
-                    frameborder="0"
-                    scrolling="no"
-                    style="width:100%; height:100%; border:0; overflow:hidden;">
-                </iframe>
-            </div>
 
         </div>
     `;
@@ -957,8 +939,8 @@ var x = setInterval(function() {
             document.getElementById("myBar").classList.add("stopped");
             console.log("Fehler... letzte Daten bleiben");
         } else {
-            element.innerHTML = "<h1 id='clock'></h1><span style=' color: grey;height: 100%; font-size: 11px; padding-left: 10px;'>Von Nicolas Caluori</span><br><div id='myProgress'><div id='myBar'><span id='percent'></span></div></div>";
-            document.getElementById("clock").innerHTML = "Warte auf erste Buchung... oder Fehler aufgetreten ";
+            element.innerHTML = "<h1 id='clock'></h1><span style=' color: grey;height: 100%; font-size: 11px; padding-left: 10px;'>oder ein Fehler ist aufgetreten</span><br><div id='myProgress'><div id='myBar'><span id='percent'></span></div></div>";
+            document.getElementById("clock").innerHTML = "Warte auf erste Buchung... ";
             removeFadeIn();
             console.log("Fehler... noch keine Daten gesammelt");
         }
