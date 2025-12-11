@@ -154,19 +154,13 @@ document.body.innerHTML = document.body.innerHTML + `
 bigDiv = document.getElementById("bigDiv");
 wholeDiv = document.getElementById("wholeDiv");
 
-// Static Siaxma “logo” – no external iframes/scripts
-var siaxmaLogoHtml = `
-    <div id="siaxma-logo" style="
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-        font-size: 24px;
-        font-weight: 600;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        padding: 8px 0;
-    ">
-        Siaxma <span style="opacity:.6; font-size:14px;">Tools</span>
-    </div>
+// Insert local Siaxma logo SVG
+document.querySelector("#topPageForm table tr td").innerHTML = `
+    <img src="https://onlylegendscanmeetjeff.github.io/siaxma-addon/assets/logo.svg"
+         id="siaxma-logo"
+         style="height: 60px; padding: 5px 0;">
 `;
+
 
 var logoCell = document.querySelector("#topPageForm table tr td");
 if (logoCell) {
