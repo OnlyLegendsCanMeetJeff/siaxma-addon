@@ -52,6 +52,15 @@ var darkCss   = ASSET_BASE + '/Siaxma_dark.css?dev=' + Math.random();
     }
 }
 
+function update() {
+    // Reload weatherwidget.io iframe every 10 minutes
+    var iframe = document.getElementById('weatherwidget-io-0');
+    if (iframe) {
+        iframe.src = iframe.src;
+    }
+}
+
+
 updateDarkMode();
 
 
@@ -815,10 +824,8 @@ var x = setInterval(function() {
         }
 
        if (i == 1) {
-    // Make sure we can position stuff inside
     element.style.position = "relative";
 
-    // Set HTML of #paddingtd (clock, progress, weather icon)
     element.innerHTML = `
         <h1 id="clock"></h1>
         <span style="color: grey; height: 100%; font-size: 11px; padding-left: 10px;">
@@ -831,26 +838,40 @@ var x = setInterval(function() {
             </div>
         </div>
 
-        <!-- Mini weather in the top-right corner -->
+        <!-- Mini weather widget in top-right -->
         <div id="weather-mini" style="
             position: absolute;
             top: 6px;
             right: 10px;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            font-size: 12px;
-            opacity: 0.9;
+            width: 140px;
+            height: 50px;
+            overflow: hidden;
         ">
-            <span id="weather-mini-icon">--</span>
-            <span id="weather-mini-temp">--°</span>
+            <a class="weatherwidget-io"
+               href="https://forecast7.com/de/46d859d53/chur/"
+               data-label_1="CHUR"
+               data-label_2=""
+               data-font="Roboto"
+               data-icons="Climacons Animated"
+               data-theme="pure">
+                CHUR
+            </a>
         </div>
     `;
     element.classList.add("fade-in");
 
-    // First weather fetch directly after initial render
-    fetchWeatherMini();
+    // Initialize weatherwidget.io script (only once)
+    (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (!d.getElementById(id)) {
+            js = d.createElement(s);
+            js.id = id;
+            js.src = 'https://weatherwidget.io/js/widget.min.js';
+            fjs.parentNode.insertBefore(js, fjs);
+        }
+    })(document, 'script', 'weatherwidget-io-js');
 }
+
 
 
         // If the count down is finished
