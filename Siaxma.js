@@ -78,14 +78,14 @@ var links = [
         'Link zum AFI Intranet'
     ],
     [
-        'Ivanti <i style="color: #DB2D27;!important" class="fas fa-clipboard-list"></i>',
-        'http://kt.heat.gr.ch/HEAT/Default.aspx',
-        'Link zum Ivanti (Tickets)'
+        'Ticketino <i style="color: #DB2D27;!important" class="fas fa-clipboard-list"></i>',
+        'https://ticketino.gr.ch/wm/app',
+        'Link zum Ticketino (Tickets)'
     ],
     [
-        'Trello <i style="color: #0079BF;!important" class="fab fa-trello"></i>',
-        'https://trello.com/',
-        'Link zu Trello.com'
+        'LinkedIn <i style="color: #0079BF;!important" class="fab fa-linkedin"></i>',
+        'https://linkedin.com/',
+        'Link zu LinkedIn.com'
     ],
     [
         'Meteo Schweiz <i style="color: #4A90E2;!important" class="fas fa-cloud-sun-rain"></i>',
@@ -824,65 +824,58 @@ var x = setInterval(function() {
         }
 
        if (i == 1) {
+
+    // Make sure the element is positioned correctly
     element.style.position = "relative";
 
+    // Build the clock + progress bar + weather iframe layout
     element.innerHTML = `
-        <h1 id="clock"></h1>
-        <span style="color: grey; height: 100%; font-size: 11px; padding-left: 10px;">
-            Von Nicolas Caluori
-        </span>
-        <br>
-        <div id="myProgress">
-            <div id="myBar">
-                <span id="percent"></span>
+        <div id="siaxma-header-wrap" style="
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            width: 100%;
+        ">
+
+            <!-- LEFT SIDE: Clock + text + progress bar -->
+            <div id="siaxma-header-left">
+                <h1 id="clock"></h1>
+
+                <span style="color: grey; font-size: 11px; padding-left: 10px;">
+                    Von Nicolas Caluori
+                </span>
+
+                <br>
+
+                <div id="myProgress" style="margin-top: 4px;">
+                    <div id="myBar">
+                        <span id="percent"></span>
+                    </div>
+                </div>
             </div>
+
+            <!-- RIGHT SIDE: Old-style weather iframe -->
+            <div id="siaxma-header-right" style="
+                width: 180px;
+                height: 70px;
+                margin-left: 12px;
+                flex-shrink: 0;
+            ">
+                <iframe
+                    id="weatherwidget-io-0"
+                    src="https://forecast7.com/de/46d859d53/chur/?unit=metric&cell=widget"
+                    frameborder="0"
+                    scrolling="no"
+                    style="width:100%; height:100%; border:0; overflow:hidden;">
+                </iframe>
+            </div>
+
         </div>
-
-        <!-- Mini weather widget in top-right -->
-        <div id="weather-mini" style="
-    position:absolute;
-    right:10px;
-    top:4px;
-    width:170px;
-    height:75px;
-">
-    <iframe
-        id="weather-iframe"
-        src="https://forecast7.com/en/46d859d53/chur/?unit=metric&cell=widget"
-        frameborder="0"
-        scrolling="no"
-        width="100%"
-        height="100%">
-    </iframe>
-</div>
-
     `;
+
     element.classList.add("fade-in");
-
-    // Load weatherwidget.io script if not already present
-    (function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (!d.getElementById(id)) {
-            js = d.createElement(s);
-            js.id = id;
-            js.src = 'https://weatherwidget.io/js/widget.min.js';
-            fjs.parentNode.insertBefore(js, fjs);
-        }
-    })(document, 'script', 'weatherwidget-io-js');
-
-    // Force init after the script & anchor exist
-    setTimeout(function () {
-        if (window.__weatherwidget_init) {
-            try {
-                window.__weatherwidget_init();
-            } catch (e) {
-                console.warn("weatherwidget init error:", e);
-            }
-        } else {
-            console.warn("weatherwidget init function not found");
-        }
-    }, 500);
 }
+
 
 
 
