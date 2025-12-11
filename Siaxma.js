@@ -840,23 +840,22 @@ var x = setInterval(function() {
 
         <!-- Mini weather widget in top-right -->
         <div id="weather-mini" style="
-            position: absolute;
-            top: 6px;
-            right: 10px;
-            width: 140px;
-            height: 50px;
-            overflow: hidden;
-        ">
-            <a class="weatherwidget-io"
-               href="https://forecast7.com/de/46d859d53/chur/"
-               data-label_1="CHUR"
-               data-label_2=""
-               data-font="Roboto"
-               data-icons="Climacons Animated"
-               data-theme="pure">
-                CHUR
-            </a>
-        </div>
+    position:absolute;
+    right:10px;
+    top:4px;
+    width:170px;
+    height:75px;
+">
+    <iframe
+        id="weather-iframe"
+        src="https://forecast7.com/en/46d859d53/chur/?unit=metric&cell=widget"
+        frameborder="0"
+        scrolling="no"
+        width="100%"
+        height="100%">
+    </iframe>
+</div>
+
     `;
     element.classList.add("fade-in");
 
