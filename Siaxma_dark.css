@@ -1,0 +1,739 @@
+:root {
+
+    --full-dark: #121212;
+
+    --medium-dark: #232323;
+
+    --light-dark: #363636;
+
+    --more-light: #4b4b4b;
+
+    --very-light: #828282;
+
+    --font-color: #ffffff;
+
+}
+
+
+
+* {
+
+    color: var(--font-color)!important;
+
+}
+
+
+
+
+
+/* Main Stuff */
+
+
+
+html {
+
+    margin-top: -2px!important;
+
+}
+
+
+
+body {
+
+    background-color: #1f1f1f!important;
+
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25'%3E%3Cdefs%3E%3ClinearGradient id='a' gradientUnits='userSpaceOnUse' x1='0' x2='0' y1='0' y2='100%25' gradientTransform='rotate(240)'%3E%3Cstop offset='0' stop-color='%231f1f1f'/%3E%3Cstop offset='1' stop-color='%234a4a4a'/%3E%3C/linearGradient%3E%3Cpattern patternUnits='userSpaceOnUse' id='b' width='540' height='450' x='0' y='0' viewBox='0 0 1080 900'%3E%3Cg fill-opacity='0.1'%3E%3Cpolygon fill='%23444' points='90 150 0 300 180 300'/%3E%3Cpolygon points='90 150 180 0 0 0'/%3E%3Cpolygon fill='%23AAA' points='270 150 360 0 180 0'/%3E%3Cpolygon fill='%23DDD' points='450 150 360 300 540 300'/%3E%3Cpolygon fill='%23999' points='450 150 540 0 360 0'/%3E%3Cpolygon points='630 150 540 300 720 300'/%3E%3Cpolygon fill='%23DDD' points='630 150 720 0 540 0'/%3E%3Cpolygon fill='%23444' points='810 150 720 300 900 300'/%3E%3Cpolygon fill='%23FFF' points='810 150 900 0 720 0'/%3E%3Cpolygon fill='%23DDD' points='990 150 900 300 1080 300'/%3E%3Cpolygon fill='%23444' points='990 150 1080 0 900 0'/%3E%3Cpolygon fill='%23DDD' points='90 450 0 600 180 600'/%3E%3Cpolygon points='90 450 180 300 0 300'/%3E%3Cpolygon fill='%23666' points='270 450 180 600 360 600'/%3E%3Cpolygon fill='%23AAA' points='270 450 360 300 180 300'/%3E%3Cpolygon fill='%23DDD' points='450 450 360 600 540 600'/%3E%3Cpolygon fill='%23999' points='450 450 540 300 360 300'/%3E%3Cpolygon fill='%23999' points='630 450 540 600 720 600'/%3E%3Cpolygon fill='%23FFF' points='630 450 720 300 540 300'/%3E%3Cpolygon points='810 450 720 600 900 600'/%3E%3Cpolygon fill='%23DDD' points='810 450 900 300 720 300'/%3E%3Cpolygon fill='%23AAA' points='990 450 900 600 1080 600'/%3E%3Cpolygon fill='%23444' points='990 450 1080 300 900 300'/%3E%3Cpolygon fill='%23222' points='90 750 0 900 180 900'/%3E%3Cpolygon points='270 750 180 900 360 900'/%3E%3Cpolygon fill='%23DDD' points='270 750 360 600 180 600'/%3E%3Cpolygon points='450 750 540 600 360 600'/%3E%3Cpolygon points='630 750 540 900 720 900'/%3E%3Cpolygon fill='%23444' points='630 750 720 600 540 600'/%3E%3Cpolygon fill='%23AAA' points='810 750 720 900 900 900'/%3E%3Cpolygon fill='%23666' points='810 750 900 600 720 600'/%3E%3Cpolygon fill='%23999' points='990 750 900 900 1080 900'/%3E%3Cpolygon fill='%23999' points='180 0 90 150 270 150'/%3E%3Cpolygon fill='%23444' points='360 0 270 150 450 150'/%3E%3Cpolygon fill='%23FFF' points='540 0 450 150 630 150'/%3E%3Cpolygon points='900 0 810 150 990 150'/%3E%3Cpolygon fill='%23222' points='0 300 -90 450 90 450'/%3E%3Cpolygon fill='%23FFF' points='0 300 90 150 -90 150'/%3E%3Cpolygon fill='%23FFF' points='180 300 90 450 270 450'/%3E%3Cpolygon fill='%23666' points='180 300 270 150 90 150'/%3E%3Cpolygon fill='%23222' points='360 300 270 450 450 450'/%3E%3Cpolygon fill='%23FFF' points='360 300 450 150 270 150'/%3E%3Cpolygon fill='%23444' points='540 300 450 450 630 450'/%3E%3Cpolygon fill='%23222' points='540 300 630 150 450 150'/%3E%3Cpolygon fill='%23AAA' points='720 300 630 450 810 450'/%3E%3Cpolygon fill='%23666' points='720 300 810 150 630 150'/%3E%3Cpolygon fill='%23FFF' points='900 300 810 450 990 450'/%3E%3Cpolygon fill='%23999' points='900 300 990 150 810 150'/%3E%3Cpolygon points='0 600 -90 750 90 750'/%3E%3Cpolygon fill='%23666' points='0 600 90 450 -90 450'/%3E%3Cpolygon fill='%23AAA' points='180 600 90 750 270 750'/%3E%3Cpolygon fill='%23444' points='180 600 270 450 90 450'/%3E%3Cpolygon fill='%23444' points='360 600 270 750 450 750'/%3E%3Cpolygon fill='%23999' points='360 600 450 450 270 450'/%3E%3Cpolygon fill='%23666' points='540 600 630 450 450 450'/%3E%3Cpolygon fill='%23222' points='720 600 630 750 810 750'/%3E%3Cpolygon fill='%23FFF' points='900 600 810 750 990 750'/%3E%3Cpolygon fill='%23222' points='900 600 990 450 810 450'/%3E%3Cpolygon fill='%23DDD' points='0 900 90 750 -90 750'/%3E%3Cpolygon fill='%23444' points='180 900 270 750 90 750'/%3E%3Cpolygon fill='%23FFF' points='360 900 450 750 270 750'/%3E%3Cpolygon fill='%23AAA' points='540 900 630 750 450 750'/%3E%3Cpolygon fill='%23FFF' points='720 900 810 750 630 750'/%3E%3Cpolygon fill='%23222' points='900 900 990 750 810 750'/%3E%3Cpolygon fill='%23222' points='1080 300 990 450 1170 450'/%3E%3Cpolygon fill='%23FFF' points='1080 300 1170 150 990 150'/%3E%3Cpolygon points='1080 600 990 750 1170 750'/%3E%3Cpolygon fill='%23666' points='1080 600 1170 450 990 450'/%3E%3Cpolygon fill='%23DDD' points='1080 900 1170 750 990 750'/%3E%3C/g%3E%3C/pattern%3E%3C/defs%3E%3Crect x='0' y='0' fill='url(%23a)' width='100%25' height='100%25'/%3E%3Crect x='0' y='0' fill='url(%23b)' width='100%25' height='100%25'/%3E%3C/svg%3E")!important;
+
+}
+
+
+
+#wholeDiv {
+
+    background-color: var(--medium-dark)!important;
+
+}
+
+
+
+#important-stuff,
+
+#widgets {
+
+    background-color: var(--medium-dark)!important;
+
+}
+
+
+
+
+
+/* Back */
+
+
+
+#backDiv {
+
+    background-color: var(--medium-dark)!important;
+
+}
+
+
+
+#rotate-button {
+
+    background-color: var(--medium-dark)!important;
+
+}
+
+
+
+.livedata li {
+
+    background-color: var(--light-dark)!important;
+
+}
+
+
+
+.dropdown-content {
+
+    background: var(--medium-dark)!important;
+
+}
+
+
+
+.dropdown-option {
+
+    background: var(--medium-dark)!important;
+
+}
+
+
+
+
+
+/* Tabellen */
+
+
+
+table {
+
+    background-color: transparent!important;
+
+}
+
+
+
+
+
+/* Diverse Leisten, Divs */
+
+
+
+div.toolTip {
+
+    background-color: var(--medium-dark)!important;
+
+}
+
+
+
+#content_tab {
+
+    border: 1px solid var(--medium-dark)!important;
+
+}
+
+
+
+.zeWindowTitle {
+
+    background-color: var(--light-dark)!important;
+
+}
+
+
+
+.zeLine1 {
+
+    background-color: var(--medium-dark)!important;
+
+}
+
+
+
+#vis_sightsDiv {
+
+    border: 1px solid var(--light-dark)!important;
+
+}
+
+
+
+.arbeitsZeitLight {
+
+    background-color: var(--light-dark)!important;
+
+}
+
+
+
+.arbeitsZeitBdNormal {
+
+    border-color: var(--medium-dark)!important;
+
+}
+
+
+
+.arbeitsZeitNormal {
+
+    background-color: var(--medium-dark)!important;
+
+}
+
+
+
+.arbeitsZeitBdDark {
+
+    border-color: var(--full-dark)!important;
+
+}
+
+
+
+.arbeitsZeitDark {
+
+    background-color: var(--full-dark)!important;
+
+}
+
+
+
+.auftragZeitLight {
+
+    background-color: var(--light-dark)!important;
+
+}
+
+
+
+.auftragZeitBdNormal {
+
+    border-color: var(--medium-dark)!important;
+
+}
+
+
+
+.auftragZeitNormal {
+
+    background-color: var(--medium-dark)!important;
+
+}
+
+
+
+.auftragZeitBdDark {
+
+    border-color: var(--full-dark)!important;
+
+}
+
+
+
+.auftragZeitDark {
+
+    background-color: var(--full-dark)!important;
+
+}
+
+
+
+.even {
+
+    background-color: var(--medium-dark)!important;
+
+}
+
+
+
+.odd {
+
+    background-color: var(--full-dark)!important;
+
+}
+
+
+
+.htmlTable .mouseover,
+
+td.mouseover {
+
+    background-color: var(--light-dark)!important;
+
+}
+
+
+
+.auftragZeitHeader li {
+
+    border: 2px solid var(--light-dark)!important;
+
+    background: var(--full-dark)!important;
+
+}
+
+
+
+.auftragZeitHeader .selected {
+
+    border-color: var(--full-dark)!important;
+
+}
+
+
+
+.auftragZeitHeader .selected a {
+
+    background: var(--medium-dark)!important;
+
+    color: var(--font-color)!important;
+
+}
+
+
+
+.auftragZeitHeader a {
+
+    background: var(--full-dark)!important;
+
+}
+
+
+
+.auftragZeitHeader a:hover {
+
+    background: var(--medium-dark)!important;
+
+    color: var(--font-color)!important;
+
+}
+
+
+
+
+
+/* Kalender */
+
+
+
+.calendar .cell {
+
+    background-color: var(--full-dark)!important;
+
+}
+
+
+
+.calendar .weekend {
+
+    background-color: var(--light-dark)!important;
+
+}
+
+
+
+
+
+/* Ein Tag der nicht zum aktuellen Monat gehĆ¶rt */
+
+
+
+
+
+/* Erbt von cell */
+
+
+
+.calendar .otherMonth {
+
+    color: #BCBCBC!important;
+
+}
+
+
+
+
+
+/* Fehlerzelle */
+
+
+
+
+
+/* Erbt von cell */
+
+
+
+.calendar .error {
+
+    background-color: #CC3300!important;
+
+}
+
+
+
+
+
+/* Warnungszelle */
+
+
+
+
+
+/* Erbt von cell */
+
+
+
+.calendar .warning {
+
+    background-color: #FFFF00!important;
+
+}
+
+
+
+
+
+/* Ćbersteuerte Fehler-/Warnungzelle */
+
+
+
+
+
+/* Erbt von cell */
+
+
+
+.calendar .overEW {
+
+    background-color: #FFC2C2!important;
+
+}
+
+
+
+
+
+/* InfoCelle */
+
+
+
+
+
+/* Erbt von cell */
+
+
+
+.calendar .info {
+
+    background-color: #4499FF!important;
+
+}
+
+
+
+
+
+/* InfoCelle */
+
+
+
+
+
+/* Erbt von cell */
+
+
+
+.calendar .upcoming {
+
+    background-color: violet!important;
+
+}
+
+
+
+
+
+/* 1 Info gesetzt ist */
+
+
+
+
+
+/* Erbt von cell */
+
+
+
+.calendar .darkGreen {
+
+    background-color: #009999!important;
+
+}
+
+
+
+
+
+/* 2 Infos gesetzt sind */
+
+
+
+
+
+/* Erbt von cell */
+
+
+
+.calendar .lightGreen {
+
+    background-color: #00CC00!important;
+
+}
+
+
+
+
+
+/* Markiertezelle */
+
+
+
+
+
+/* Erbt von cell */
+
+
+
+.calendar .marked {
+
+    background-color: #DD7777!important;
+
+}
+
+
+
+
+
+/* Datum ausserhalb des Bereiches */
+
+
+
+
+
+/* Erbt von cell */
+
+
+
+.calendar .outOfRange {
+
+    cursor: default;
+
+    background-color: #8D8D8D!important;
+
+}
+
+
+
+.calendar .weekNr {
+
+    background-color: var(--medium-dark)!important;
+
+}
+
+
+
+.calendar .innerselected {
+
+    background-color: var(--more-light)!important;
+
+}
+
+
+
+.calendar .header {
+
+    background-color: var(--medium-dark)!important;
+
+}
+
+
+
+.calendar th {
+
+    background-color: var(--full-dark)!important;
+
+}
+
+
+
+
+
+/* Cards */
+
+
+
+.card {
+
+    background-color: var(--light-dark)!important;
+
+    color: var(--font-color)!important;
+
+}
+
+
+
+.card-corona {
+
+    background-color: var(--light-dark)!important;
+
+    border-color: var(--light-dark)!important;
+
+}
+
+
+
+.cases {
+
+    border-left: .25rem solid #36b9cc!important;
+
+}
+
+
+
+.recovered {
+
+    border-left: .25rem solid #1cc88a!important;
+
+}
+
+
+
+.dead {
+
+    border-left: .25rem solid #e74a3b!important;
+
+}
+
+
+
+.new-cases {
+
+    border-left: .25rem solid #f6c23e!important;
+
+}
+
+
+
+.card-big-text {
+
+    color: var(--font-color)!important;
+
+}
+
+
+
+
+
+/* Buttons */
+
+
+
+.calendar-button {
+
+    color: var(--font-color)!important;
+
+    background: var(--medium-dark)!important;
+
+}
+
+
+
+.textButton,
+
+#WTButton_ze_monthPrintBtn,
+
+#WTButton_ze_recalcDayBtn,
+
+#simpleCombobox_booking_abscenceType_now {
+
+    color: var(--font-color)!important;
+
+    background: var(--medium-dark)!important;
+
+    border: 3px solid var(--full-dark) !important;
+
+}
+
+
+
+.textButton:hover,
+
+#WTButton_ze_monthPrintBtn:hover,
+
+#WTButton_ze_recalcDayBtn:hover,
+
+#simpleCombobox_booking_abscenceType_now:hover,
+
+.calendar-button:hover {
+
+    color: var(--font-color)!important;
+
+}
+
+
+
+
+
+/* Inputs */
+
+
+
+select {
+
+    background-color: var(--medium-dark)!important;
+
+}
+
+
+
+option {
+
+    background-color: var(--medium-dark)!important;
+
+}
+
+
+
+input,
+
+textarea {
+
+    background-color: var(--medium-dark)!important;
+
+    color: var(--font-color)!important;
+
+    outline: 0!important;
+
+}
+
+
+
+button {
+
+    background-color: var(--medium-dark)!important;
+
+}
